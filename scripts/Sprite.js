@@ -2,7 +2,8 @@ class Sprite {
   constructor({ position, image, frames = { max: 1 } }) {
     this.position = position;
     this.image = image;
-    this.frames = frames;
+    this.frames = { ...frames, val: 0, laps: 0 };
+    this.moving = false;
 
     image.onload = () => {
       this.width = image.width / frames.max;
@@ -12,9 +13,10 @@ class Sprite {
 
   draw(canvasPlane) {
     const { x, y } = this.position;
+
     canvasPlane.drawImage(
       this.image, // image
-      0, // sx -> start clipping X coordinate
+      this.frames.val * this.width, // sx -> start clipping X coordinate
       0, // sy -> start clipping Y coordinate
       this.width, // ex -> end clipping X coordinate
       this.height, // ey -> end clipping on the Y coordinate
@@ -23,6 +25,13 @@ class Sprite {
       this.width, // width of the image
       this.height // height of the image
     );
+
+    if (!this.moving) return;
+
+    if (this.frames.laps++ % 15 === 0) {
+      if (this.frames.val < this.frames.max - 1) this.frames.val++;
+      else this.frames.val = 0;
+    }
   }
 }
 

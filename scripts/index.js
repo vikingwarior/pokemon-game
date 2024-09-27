@@ -113,9 +113,12 @@ const isColliding = (sprite1, sprite2) => {
 
 const movePlayerIfKeyPressed = () => {
   const lastKey = keys.lastKey;
+  player.moving = false;
 
   if (keys["w"].pressed && lastKey === "w") {
     let moving = true;
+    player.moving = true;
+
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
       if (
@@ -138,6 +141,8 @@ const movePlayerIfKeyPressed = () => {
       });
   } else if (keys["s"].pressed && lastKey === "s") {
     let moving = true;
+    player.moving = true;
+    
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
       if (
@@ -160,6 +165,8 @@ const movePlayerIfKeyPressed = () => {
       });
   } else if (keys["a"].pressed && lastKey === "a") {
     let moving = true;
+    player.moving = true;
+    
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
       if (
@@ -182,6 +189,8 @@ const movePlayerIfKeyPressed = () => {
       });
   } else if (keys["d"].pressed && lastKey === "d") {
     let moving = true;
+    player.moving = true;
+
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
       if (
