@@ -1,10 +1,42 @@
 import Sprite from './Sprite.js';
+import Boundary from './Boundary.js';
 import { collisions } from './data/collisions.js';
 
 const canvas = document.querySelector('canvas');
 
 canvas.width = 1024;
 canvas.height = 576;
+
+const offset = {
+    x: -736,
+    y: -605
+};
+
+let boundaries = [];
+
+const extractBoundaryCoordinates = () => {
+    let collisionData = [];
+
+    for (let i = 0; i < collisions.length; i += 70) {
+        collisionData.push(collisions.slice(i, i + 70));
+    }
+
+    collisionData.forEach((row, rowIndex) => {
+        row.forEach((item, colIndex) => {
+            if (item === 1025) {
+                boundaries.push(
+                    new Boundary({
+                        position: {
+                            x: colIndex * Boundary.width + offset.x,
+                            y: rowIndex * Boundary.height + offset.y
+                        }
+                    }));
+            }
+        });
+    });
+}
+
+extractBoundaryCoordinates();
 
 const c = canvas.getContext('2d');
 
@@ -16,8 +48,8 @@ playerDown.src = '../assets/img/player-sprites/playerDown.png';
 
 const background = new Sprite({
     position: {
-        x: -736,
-        y: -605
+        x: offset.x,
+        y: offset.y
     },
     image
 });
@@ -36,6 +68,10 @@ const animate = () => {
     movePlayerIfKeyPressed();
 
     background.draw(c);
+
+    boundaries.forEach(boundary => {
+        boundary.draw(c);
+    });
 
     c.drawImage(playerDown, // image
         0, // sx -> start clipping on the X axis from the image
@@ -69,3 +105,5 @@ window.addEventListener('keydown', (e) => {
 window.addEventListener('keyup', (e) => {
     if (keys[e.key]) keys[e.key].pressed = false;
 });
+
+
