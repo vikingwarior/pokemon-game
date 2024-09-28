@@ -8,8 +8,8 @@ canvas.width = 1024;
 canvas.height = 576;
 
 const offset = {
-    x: -736,
-    y: -605
+    x: -715,
+    y: -565
 };
 
 let boundaries = [];
@@ -54,6 +54,17 @@ const background = new Sprite({
     image
 });
 
+const player = new Sprite({
+    position: {
+        x: canvas.width / 2 - playerDown.width / 2 ,
+        y: canvas.height / 2 - playerDown.height
+    },
+    image: playerDown,
+    frames: {
+        max: 4
+    }
+});
+
 const keys = {
     'w': { pressed: false },
     'a': { pressed: false },
@@ -73,17 +84,7 @@ const animate = () => {
         boundary.draw(c);
     });
 
-    c.drawImage(playerDown, // image
-        0, // sx -> start clipping on the X axis from the image
-        0, // sy -> start clipping on the Y axis from the image
-        playerDown.width / 4, // ex -> end clipping on the X axis from the image
-        playerDown.height, // ey -> end clipping on the Y axis from the image
-        canvas.width / 2 - playerDown.width / 8, // x coordinate on the canvas
-        canvas.height / 2 - playerDown.height / 2, // y coordinate on the canvas
-        playerDown.width / 4, // width of the image
-        playerDown.height // height of the image
-    );
-
+    player.draw(c);
 };
 
 const movePlayerIfKeyPressed = () => {
