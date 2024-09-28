@@ -12,7 +12,6 @@ class Boundary {
         canvasPlane.fillRect(x, y, Boundary.width, Boundary.height);
     }
 
-    // Add methods here
 }
 
 export default Boundary;
