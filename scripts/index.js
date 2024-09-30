@@ -90,6 +90,15 @@ const animate = () => {
 
 const movables = [background, ...boundaries];
 
+const isColliding = (sprite1, sprite2) => {
+  return (
+    sprite1.position.x + sprite1.width >= sprite2.position.x &&
+    sprite1.position.x <= sprite2.position.x + sprite2.width &&
+    sprite1.position.y <= sprite2.position.y + sprite2.height &&
+    sprite1.position.y + sprite1.height > sprite2.position.y
+  );
+};
+
 const movePlayerIfKeyPressed = () => {
   const lastKey = keys.lastKey;
 
