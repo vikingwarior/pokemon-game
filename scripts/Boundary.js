@@ -1,15 +1,16 @@
 class Boundary {
   static height = 48;
   static width = 48;
-
   constructor({ position }) {
+    this.height = 48;
+    this.width = 48;
     this.position = position;
   }
 
   draw(canvasPlane) {
     const { x, y } = this.position;
     canvasPlane.fillStyle = "red";
-    canvasPlane.fillRect(x, y, Boundary.width, Boundary.height);
+    canvasPlane.fillRect(x, y, this.width, this.height);
   }
 }
 
