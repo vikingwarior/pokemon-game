@@ -9,7 +9,7 @@ canvas.height = 576;
 
 const offset = {
   x: -715,
-  y: -565,
+  y: -595,
 };
 
 let boundaries = [];
@@ -104,22 +104,95 @@ const isColliding = (sprite1, sprite2) => {
 const movePlayerIfKeyPressed = () => {
   const lastKey = keys.lastKey;
 
-  if (keys["w"].pressed && lastKey === "w")
-    movables.forEach((movable) => {
-      movable.position.y += 3;
-    });
-  else if (keys["s"].pressed && lastKey === "s")
-    movables.forEach((movable) => {
-      movable.position.y -= 3;
-    });
-  else if (keys["a"].pressed && lastKey === "a")
-    movables.forEach((movable) => {
-      movable.position.x += 3;
-    });
-  else if (keys["d"].pressed && lastKey === "d")
-    movables.forEach((movable) => {
-      movable.position.x -= 3;
-    });
+  if (keys["w"].pressed && lastKey === "w") {
+    let moving = true;
+    for (let i = 0; i < boundaries.length; i++) {
+      const boundary = boundaries[i];
+      if (
+        isColliding(player, {
+          ...boundary,
+          position: {
+            x: boundary.position.x,
+            y: boundary.position.y + 3,
+          },
+        })
+      ) {
+        moving = false;
+        break;
+      }
+    }
+
+    moving &&
+      movables.forEach((movable) => {
+        movable.position.y += 3;
+      });
+  } else if (keys["s"].pressed && lastKey === "s") {
+    let moving = true;
+    for (let i = 0; i < boundaries.length; i++) {
+      const boundary = boundaries[i];
+      if (
+        isColliding(player, {
+          ...boundary,
+          position: {
+            x: boundary.position.x,
+            y: boundary.position.y - 3,
+          },
+        })
+      ) {
+        moving = false;
+        break;
+      }
+    }
+
+    moving &&
+      movables.forEach((movable) => {
+        movable.position.y -= 3;
+      });
+  } else if (keys["a"].pressed && lastKey === "a") {
+    let moving = true;
+    for (let i = 0; i < boundaries.length; i++) {
+      const boundary = boundaries[i];
+      if (
+        isColliding(player, {
+          ...boundary,
+          position: {
+            x: boundary.position.x + 3,
+            y: boundary.position.y,
+          },
+        })
+      ) {
+        moving = false;
+        break;
+      }
+    }
+
+    moving &&
+      movables.forEach((movable) => {
+        movable.position.x += 3;
+      });
+  } else if (keys["d"].pressed && lastKey === "d") {
+    let moving = true;
+    for (let i = 0; i < boundaries.length; i++) {
+      const boundary = boundaries[i];
+      if (
+        isColliding(player, {
+          ...boundary,
+          position: {
+            x: boundary.position.x - 3,
+            y: boundary.position.y,
+          },
+        })
+      ) {
+        moving = false;
+        break;
+      }
+    }
+
+    moving &&
+      movables.forEach((movable) => {
+        movable.position.x -= 3;
+      });
+  }
 };
 
 animate();
