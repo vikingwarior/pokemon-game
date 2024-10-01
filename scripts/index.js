@@ -83,6 +83,8 @@ const animate = () => {
 
   boundaries.forEach((boundary) => {
     boundary.draw(c);
+
+    isColliding(player, boundary) && console.log("Colliding");
   });
 
   player.draw(c);
@@ -104,19 +106,19 @@ const movePlayerIfKeyPressed = () => {
 
   if (keys["w"].pressed && lastKey === "w")
     movables.forEach((movable) => {
-      movable.position.y += 6;
+      movable.position.y += 3;
     });
   else if (keys["s"].pressed && lastKey === "s")
     movables.forEach((movable) => {
-      movable.position.y -= 6;
+      movable.position.y -= 3;
     });
   else if (keys["a"].pressed && lastKey === "a")
     movables.forEach((movable) => {
-      movable.position.x += 6;
+      movable.position.x += 3;
     });
   else if (keys["d"].pressed && lastKey === "d")
     movables.forEach((movable) => {
-      movable.position.x -= 6;
+      movable.position.x -= 3;
     });
 };
 
