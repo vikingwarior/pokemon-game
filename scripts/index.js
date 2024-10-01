@@ -83,8 +83,6 @@ const animate = () => {
 
   boundaries.forEach((boundary) => {
     boundary.draw(c);
-
-    isColliding(player, boundary) && console.log("Colliding");
   });
 
   player.draw(c);
