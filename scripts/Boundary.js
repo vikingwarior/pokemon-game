@@ -9,7 +9,7 @@ class Boundary {
 
   draw(canvasPlane) {
     const { x, y } = this.position;
-    canvasPlane.fillStyle = "red";
+    canvasPlane.fillStyle = "rgb(0, 0, 0, 0)";
     canvasPlane.fillRect(x, y, this.width, this.height);
   }
 }
