@@ -42,12 +42,20 @@ extractBoundaryCoordinates();
 const c = canvas.getContext("2d");
 
 const image = new Image();
-const playerDown = new Image();
 const foregroundImage = new Image();
 
+const playerUp = new Image();
+const playerLeft = new Image();
+const playerDown = new Image();
+const playerRight = new Image();
+
 image.src = "../assets/img/Pellet_Town-zoomed.png";
-playerDown.src = "../assets/img/player-sprites/playerDown.png";
 foregroundImage.src = "../assets/img/foreground_objects.png";
+
+playerUp.src = "../assets/img/player-sprites/playerUp.png";
+playerLeft.src = "../assets/img/player-sprites/playerLeft.png";
+playerDown.src = "../assets/img/player-sprites/playerDown.png";
+playerRight.src = "../assets/img/player-sprites/playerRight.png";
 
 const background = new Sprite({
   position: {
@@ -73,6 +81,12 @@ const player = new Sprite({
   image: playerDown,
   frames: {
     max: 4,
+  },
+  sprites: {
+    up: playerUp,
+    left: playerLeft,
+    down: playerDown,
+    right: playerRight,
   },
 });
 
@@ -113,9 +127,14 @@ const isColliding = (sprite1, sprite2) => {
 
 const movePlayerIfKeyPressed = () => {
   const lastKey = keys.lastKey;
+  player.moving = false;
 
   if (keys["w"].pressed && lastKey === "w") {
     let moving = true;
+
+    player.moving = true;
+    player.image = player.sprites.up;
+
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
       if (
@@ -138,6 +157,10 @@ const movePlayerIfKeyPressed = () => {
       });
   } else if (keys["s"].pressed && lastKey === "s") {
     let moving = true;
+
+    player.moving = true;
+    player.image = player.sprites.down;
+    
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
       if (
@@ -160,6 +183,10 @@ const movePlayerIfKeyPressed = () => {
       });
   } else if (keys["a"].pressed && lastKey === "a") {
     let moving = true;
+
+    player.moving = true;
+    player.image = player.sprites.left;
+    
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
       if (
@@ -182,6 +209,10 @@ const movePlayerIfKeyPressed = () => {
       });
   } else if (keys["d"].pressed && lastKey === "d") {
     let moving = true;
+
+    player.moving = true;
+    player.image = player.sprites.right;
+
     for (let i = 0; i < boundaries.length; i++) {
       const boundary = boundaries[i];
       if (
