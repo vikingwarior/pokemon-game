@@ -1,9 +1,10 @@
 class Sprite {
-  constructor({ position, image, frames = { max: 1 } }) {
+  constructor({ position, image, frames = { max: 1 }, sprites }) {
     this.position = position;
     this.image = image;
     this.frames = { ...frames, val: 0, laps: 0 };
     this.moving = false;
+    this.sprites = sprites;
 
     image.onload = () => {
       this.width = image.width / frames.max;
