@@ -43,16 +43,26 @@ const c = canvas.getContext("2d");
 
 const image = new Image();
 const playerDown = new Image();
+const foregroundImage = new Image();
 
 image.src = "../assets/img/Pellet_Town-zoomed.png";
 playerDown.src = "../assets/img/player-sprites/playerDown.png";
+foregroundImage.src = "../assets/img/foreground_objects.png";
 
 const background = new Sprite({
   position: {
     x: offset.x,
     y: offset.y,
   },
-  image,
+  image: image,
+});
+
+const foreground = new Sprite({
+  position: {
+    x: offset.x,
+    y: offset.y,
+  },
+  image: foregroundImage,
 });
 
 const player = new Sprite({
@@ -86,9 +96,11 @@ const animate = () => {
   });
 
   player.draw(c);
+  
+  foreground.draw(c);
 };
 
-const movables = [background, ...boundaries];
+const movables = [background, foreground, ...boundaries];
 
 const isColliding = (sprite1, sprite2) => {
   return (
