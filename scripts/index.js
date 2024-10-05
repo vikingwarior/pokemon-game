@@ -1,6 +1,9 @@
 import Sprite from "./Sprite.js";
 import Boundary from "./Boundary.js";
+
 import { collisions } from "./data/collisions.js";
+import { battleZones } from "./data/battleZones.js";
+
 
 const canvas = document.querySelector("canvas");
 
@@ -10,21 +13,20 @@ canvas.height = 576;
 const offset = {
   x: -715,
   y: -595,
-};
+}; 
 
-let boundaries = [];
+const extractBoundaryCoordinates = (boundaryArray) => {
+  let boundaryCoordinates = [];
+  let boundaryData = [];
 
-const extractBoundaryCoordinates = () => {
-  let collisionData = [];
-
-  for (let i = 0; i < collisions.length; i += 70) {
-    collisionData.push(collisions.slice(i, i + 70));
+  for (let i = 0; i < boundaryArray.length; i += 70) {
+    boundaryData.push(boundaryArray.slice(i, i + 70));
   }
 
-  collisionData.forEach((row, rowIndex) => {
+  boundaryData.forEach((row, rowIndex) => {
     row.forEach((item, colIndex) => {
       if (item === 1025) {
-        boundaries.push(
+        boundaryCoordinates.push(
           new Boundary({
             position: {
               x: colIndex * Boundary.width + offset.x,
@@ -35,9 +37,12 @@ const extractBoundaryCoordinates = () => {
       }
     });
   });
+
+  return boundaryCoordinates;
 };
 
-extractBoundaryCoordinates();
+let collisionBoundaries = extractBoundaryCoordinates(collisions);
+let battleZoneBoundaries = extractBoundaryCoordinates(battleZones);
 
 const c = canvas.getContext("2d");
 
@@ -105,7 +110,11 @@ const animate = () => {
 
   background.draw(c);
 
-  boundaries.forEach((boundary) => {
+  collisionBoundaries.forEach((boundary) => {
+    boundary.draw(c);
+  });
+
+  battleZoneBoundaries.forEach((boundary) => {
     boundary.draw(c);
   });
 
@@ -114,7 +123,7 @@ const animate = () => {
   foreground.draw(c);
 };
 
-const movables = [background, foreground, ...boundaries];
+const movables = [background, foreground, ...collisionBoundaries, ...battleZoneBoundaries];
 
 const isColliding = (sprite1, sprite2) => {
   return (
@@ -135,8 +144,8 @@ const movePlayerIfKeyPressed = () => {
     player.moving = true;
     player.image = player.sprites.up;
 
-    for (let i = 0; i < boundaries.length; i++) {
-      const boundary = boundaries[i];
+    for (let i = 0; i < collisionBoundaries.length; i++) {
+      const boundary = collisionBoundaries[i];
       if (
         isColliding(player, {
           ...boundary,
@@ -161,8 +170,8 @@ const movePlayerIfKeyPressed = () => {
     player.moving = true;
     player.image = player.sprites.down;
     
-    for (let i = 0; i < boundaries.length; i++) {
-      const boundary = boundaries[i];
+    for (let i = 0; i < collisionBoundaries.length; i++) {
+      const boundary = collisionBoundaries[i];
       if (
         isColliding(player, {
           ...boundary,
@@ -187,8 +196,8 @@ const movePlayerIfKeyPressed = () => {
     player.moving = true;
     player.image = player.sprites.left;
     
-    for (let i = 0; i < boundaries.length; i++) {
-      const boundary = boundaries[i];
+    for (let i = 0; i < collisionBoundaries.length; i++) {
+      const boundary = collisionBoundaries[i];
       if (
         isColliding(player, {
           ...boundary,
@@ -213,8 +222,8 @@ const movePlayerIfKeyPressed = () => {
     player.moving = true;
     player.image = player.sprites.right;
 
-    for (let i = 0; i < boundaries.length; i++) {
-      const boundary = boundaries[i];
+    for (let i = 0; i < collisionBoundaries.length; i++) {
+      const boundary = collisionBoundaries[i];
       if (
         isColliding(player, {
           ...boundary,
