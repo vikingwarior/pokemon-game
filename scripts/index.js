@@ -138,6 +138,14 @@ const movePlayerIfKeyPressed = () => {
   const lastKey = keys.lastKey;
   player.moving = false;
 
+  if (keys["w"].pressed || keys["a"].pressed || keys["s"].pressed || keys["d"].pressed) {
+    battleZoneBoundaries.forEach((battleZone) => {
+      if (isColliding(player, battleZone)) {
+        console.log("Battle Zone!");
+      }
+    });
+  }
+
   if (keys["w"].pressed && lastKey === "w") {
     let moving = true;
 
