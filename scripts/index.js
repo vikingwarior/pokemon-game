@@ -4,7 +4,6 @@ import Boundary from "./Boundary.js";
 import { collisions } from "./data/collisions.js";
 import { battleZones } from "./data/battleZones.js";
 
-
 const canvas = document.querySelector("canvas");
 
 canvas.width = 1024;
@@ -13,7 +12,7 @@ canvas.height = 576;
 const offset = {
   x: -715,
   y: -595,
-}; 
+};
 
 const extractBoundaryCoordinates = (boundaryArray) => {
   let boundaryCoordinates = [];
@@ -119,11 +118,16 @@ const animate = () => {
   });
 
   player.draw(c);
-  
+
   foreground.draw(c);
 };
 
-const movables = [background, foreground, ...collisionBoundaries, ...battleZoneBoundaries];
+const movables = [
+  background,
+  foreground,
+  ...collisionBoundaries,
+  ...battleZoneBoundaries,
+];
 
 const isColliding = (sprite1, sprite2) => {
   return (
@@ -138,12 +142,19 @@ const movePlayerIfKeyPressed = () => {
   const lastKey = keys.lastKey;
   player.moving = false;
 
-  if (keys["w"].pressed || keys["a"].pressed || keys["s"].pressed || keys["d"].pressed) {
-    battleZoneBoundaries.forEach((battleZone) => {
-      if (isColliding(player, battleZone)) {
-        console.log("Battle Zone!");
+  if (
+    keys["w"].pressed ||
+    keys["a"].pressed ||
+    keys["s"].pressed ||
+    keys["d"].pressed
+  ) {
+    for (let i = 0; i < battleZoneBoundaries.length; i++) {
+      const battleZone = battleZoneBoundaries[i];
+      if (isColliding(player, battleZone) && Math.random() < 0.01) {
+        console.log("Battle Zone");
+        break;
       }
-    });
+    }
   }
 
   if (keys["w"].pressed && lastKey === "w") {
@@ -177,7 +188,7 @@ const movePlayerIfKeyPressed = () => {
 
     player.moving = true;
     player.image = player.sprites.down;
-    
+
     for (let i = 0; i < collisionBoundaries.length; i++) {
       const boundary = collisionBoundaries[i];
       if (
@@ -203,7 +214,7 @@ const movePlayerIfKeyPressed = () => {
 
     player.moving = true;
     player.image = player.sprites.left;
-    
+
     for (let i = 0; i < collisionBoundaries.length; i++) {
       const boundary = collisionBoundaries[i];
       if (
