@@ -45,23 +45,14 @@ let battleZoneBoundaries = extractBoundaryCoordinates(battleZones);
 
 const c = canvas.getContext("2d");
 
+// Background Sprites
 const image = new Image();
 const foregroundImage = new Image();
 const battleZoneImage = new Image();
 
-const playerUp = new Image();
-const playerLeft = new Image();
-const playerDown = new Image();
-const playerRight = new Image();
-
 image.src = "../assets/img/Pellet_Town-zoomed.png";
 foregroundImage.src = "../assets/img/foreground_objects.png";
 battleZoneImage.src = "../assets/img/battleBackground.png";
-
-playerUp.src = "../assets/img/player-sprites/playerUp.png";
-playerLeft.src = "../assets/img/player-sprites/playerLeft.png";
-playerDown.src = "../assets/img/player-sprites/playerDown.png";
-playerRight.src = "../assets/img/player-sprites/playerRight.png";
 
 const background = new Sprite({
   position: {
@@ -87,6 +78,17 @@ const battleZone = new Sprite({
   image: battleZoneImage,
 });
 
+// Player Sprites
+const playerUp = new Image();
+const playerLeft = new Image();
+const playerDown = new Image();
+const playerRight = new Image();
+
+playerUp.src = "../assets/img/player-sprites/playerUp.png";
+playerLeft.src = "../assets/img/player-sprites/playerLeft.png";
+playerDown.src = "../assets/img/player-sprites/playerDown.png";
+playerRight.src = "../assets/img/player-sprites/playerRight.png";
+
 const player = new Sprite({
   position: {
     x: canvas.width / 2 - playerDown.width / 2,
@@ -104,6 +106,41 @@ const player = new Sprite({
   },
 });
 
+// Monster Sprites
+const draggleImage = new Image();
+const embyImage = new Image();
+
+draggleImage.src = "../assets/img/monster-sprites/draggleSprite.png";
+embyImage.src = "../assets/img/monster-sprites/embySprite.png";
+
+const draggle = new Sprite({
+  position: {
+    x: 800,
+    y: 100,
+  },
+  frames: {
+    max: 4,
+    hold: 45,
+  },
+  image: draggleImage,
+  animate: true,
+});
+
+const emby = new Sprite({
+  position: {
+    x: 280,
+    y: 325,
+  },
+  frames: {
+    max: 4,
+    hold: 45,
+  },
+  image: embyImage,
+  animate: true,
+});
+
+
+// Key Presses Tracker Object
 const keys = {
   w: { pressed: false },
   a: { pressed: false },
@@ -135,6 +172,8 @@ const runOpenWorld = () => {
 const battleAnimationLoop = () => {
   const animationId = requestAnimationFrame(battleAnimationLoop);
   battleZone.draw(c);
+  draggle.draw(c);
+  emby.draw(c);
 };
 
 const movables = [
@@ -157,7 +196,7 @@ const movePlayerIfKeyPressed = (animationId) => {
   const lastKey = keys.lastKey;
   let battleInitiated = false;
 
-  player.moving = false;
+  player.animate = false;
 
   if (
     keys["w"].pressed ||
@@ -202,7 +241,7 @@ const movePlayerIfKeyPressed = (animationId) => {
   if (keys["w"].pressed && lastKey === "w") {
     let moving = true;
 
-    player.moving = true;
+    player.animate = true;
     player.image = player.sprites.up;
 
     for (let i = 0; i < collisionBoundaries.length; i++) {
@@ -228,7 +267,7 @@ const movePlayerIfKeyPressed = (animationId) => {
   } else if (keys["s"].pressed && lastKey === "s") {
     let moving = true;
 
-    player.moving = true;
+    player.animate = true;
     player.image = player.sprites.down;
 
     for (let i = 0; i < collisionBoundaries.length; i++) {
@@ -254,7 +293,7 @@ const movePlayerIfKeyPressed = (animationId) => {
   } else if (keys["a"].pressed && lastKey === "a") {
     let moving = true;
 
-    player.moving = true;
+    player.animate = true;
     player.image = player.sprites.left;
 
     for (let i = 0; i < collisionBoundaries.length; i++) {
@@ -280,7 +319,7 @@ const movePlayerIfKeyPressed = (animationId) => {
   } else if (keys["d"].pressed && lastKey === "d") {
     let moving = true;
 
-    player.moving = true;
+    player.animate = true;
     player.image = player.sprites.right;
 
     for (let i = 0; i < collisionBoundaries.length; i++) {
