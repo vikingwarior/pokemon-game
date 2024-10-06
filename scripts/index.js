@@ -103,9 +103,9 @@ const keys = {
 };
 
 const animate = () => {
-  requestAnimationFrame(animate);
+  const animationId = requestAnimationFrame(animate);
 
-  movePlayerIfKeyPressed();
+  movePlayerIfKeyPressed(animationId);
 
   background.draw(c);
 
@@ -138,8 +138,10 @@ const isColliding = (sprite1, sprite2) => {
   );
 };
 
-const movePlayerIfKeyPressed = () => {
+const movePlayerIfKeyPressed = (animationId) => {
   const lastKey = keys.lastKey;
+  let battleInitiated = false;
+
   player.moving = false;
 
   if (
@@ -151,11 +153,14 @@ const movePlayerIfKeyPressed = () => {
     for (let i = 0; i < battleZoneBoundaries.length; i++) {
       const battleZone = battleZoneBoundaries[i];
       if (isColliding(player, battleZone) && Math.random() < 0.01) {
-        console.log("Battle Zone");
+        console.log("Battle initiated!");        
+        cancelAnimationFrame(animationId);
         break;
       }
     }
   }
+
+  if (battleInitiated) return;
 
   if (keys["w"].pressed && lastKey === "w") {
     let moving = true;
