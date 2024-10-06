@@ -102,8 +102,8 @@ const keys = {
   lastKey: "",
 };
 
-const animate = () => {
-  const animationId = requestAnimationFrame(animate);
+const runOpenWorld = () => {
+  const animationId = requestAnimationFrame(runOpenWorld);
 
   movePlayerIfKeyPressed(animationId);
 
@@ -120,6 +120,10 @@ const animate = () => {
   player.draw(c);
 
   foreground.draw(c);
+};
+
+const initiateBattleSequence = () => {
+  const animationId = requestAnimationFrame(initiateBattleSequence);
 };
 
 const movables = [
@@ -153,8 +157,25 @@ const movePlayerIfKeyPressed = (animationId) => {
     for (let i = 0; i < battleZoneBoundaries.length; i++) {
       const battleZone = battleZoneBoundaries[i];
       if (isColliding(player, battleZone) && Math.random() < 0.01) {
-        console.log("Battle initiated!");        
         cancelAnimationFrame(animationId);
+        battleInitiated = true; 
+
+        // Flash the screen(Transition to battle)
+        gsap.to("#overlay", {
+          duration: 0.3,
+          repeat: 3,
+          yoyo: true,
+          opacity: 1,
+          onComplete: () => {
+            gsap.to("#overlay", {
+              duration: 0.3,
+              opacity: 1,
+            });
+          },
+        });
+
+        initiateBattleSequence();
+        console.log("Battle initiated!");        
         break;
       }
     }
@@ -269,7 +290,7 @@ const movePlayerIfKeyPressed = (animationId) => {
   }
 };
 
-animate();
+runOpenWorld();
 
 window.addEventListener("keydown", (e) => {
   if (keys[e.key]) keys[e.key].pressed = true;
