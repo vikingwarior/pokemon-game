@@ -122,8 +122,8 @@ const runOpenWorld = () => {
   foreground.draw(c);
 };
 
-const initiateBattleSequence = () => {
-  const animationId = requestAnimationFrame(initiateBattleSequence);
+const battleAnimationLoop = () => {
+  const animationId = requestAnimationFrame(battleAnimationLoop);
 };
 
 const movables = [
@@ -174,7 +174,7 @@ const movePlayerIfKeyPressed = (animationId) => {
           },
         });
 
-        initiateBattleSequence();
+        battleAnimationLoop();
         console.log("Battle initiated!");        
         break;
       }
