@@ -139,7 +139,6 @@ const emby = new Sprite({
   animate: true,
 });
 
-
 // Key Presses Tracker Object
 const keys = {
   w: { pressed: false },
