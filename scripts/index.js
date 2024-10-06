@@ -47,6 +47,7 @@ const c = canvas.getContext("2d");
 
 const image = new Image();
 const foregroundImage = new Image();
+const battleZoneImage = new Image();
 
 const playerUp = new Image();
 const playerLeft = new Image();
@@ -55,6 +56,7 @@ const playerRight = new Image();
 
 image.src = "../assets/img/Pellet_Town-zoomed.png";
 foregroundImage.src = "../assets/img/foreground_objects.png";
+battleZoneImage.src = "../assets/img/battleBackground.png";
 
 playerUp.src = "../assets/img/player-sprites/playerUp.png";
 playerLeft.src = "../assets/img/player-sprites/playerLeft.png";
@@ -75,6 +77,14 @@ const foreground = new Sprite({
     y: offset.y,
   },
   image: foregroundImage,
+});
+
+const battleZone = new Sprite({
+  position: {
+    x: 0,
+    y: 0,
+  },
+  image: battleZoneImage,
 });
 
 const player = new Sprite({
@@ -124,6 +134,7 @@ const runOpenWorld = () => {
 
 const battleAnimationLoop = () => {
   const animationId = requestAnimationFrame(battleAnimationLoop);
+  battleZone.draw(c);
 };
 
 const movables = [
@@ -158,7 +169,7 @@ const movePlayerIfKeyPressed = (animationId) => {
       const battleZone = battleZoneBoundaries[i];
       if (isColliding(player, battleZone) && Math.random() < 0.01) {
         cancelAnimationFrame(animationId);
-        battleInitiated = true; 
+        battleInitiated = true;
 
         // Flash the screen(Transition to battle)
         gsap.to("#overlay", {
@@ -170,12 +181,17 @@ const movePlayerIfKeyPressed = (animationId) => {
             gsap.to("#overlay", {
               duration: 0.3,
               opacity: 1,
+              onComplete: () => {
+                gsap.to("#overlay", {
+                  opacity: 0,
+                  duration: 0.3,
+                });
+
+                battleAnimationLoop();
+              },
             });
           },
         });
-
-        battleAnimationLoop();
-        console.log("Battle initiated!");        
         break;
       }
     }
@@ -290,7 +306,8 @@ const movePlayerIfKeyPressed = (animationId) => {
   }
 };
 
-runOpenWorld();
+battleAnimationLoop();
+// runOpenWorld();
 
 window.addEventListener("keydown", (e) => {
   if (keys[e.key]) keys[e.key].pressed = true;
