@@ -5,6 +5,7 @@ class Sprite {
     this.frames = { ...frames, val: 0, laps: 0 };
     this.animate = animate;
     this.sprites = sprites;
+    this.opacity = 1;
 
     image.onload = () => {
       this.width = image.width / frames.max;
@@ -14,7 +15,8 @@ class Sprite {
 
   draw(canvasPlane) {
     const { x, y } = this.position;
-
+    canvasPlane.save();
+    canvasPlane.globalAlpha = this.opacity;
     canvasPlane.drawImage(
       this.image, // image
       this.frames.val * this.width, // sx -> start clipping X coordinate
@@ -26,6 +28,7 @@ class Sprite {
       this.width, // width of the image
       this.height // height of the image
     );
+    canvasPlane.restore();
 
     if (!this.animate) return;
 
@@ -33,6 +36,36 @@ class Sprite {
       if (this.frames.val < this.frames.max - 1) this.frames.val++;
       else this.frames.val = 0;
     }
+  }
+
+  attack({attack, recipient}){
+    const tl = gsap.timeline();
+
+    tl.to(this.position, {
+      x: this.position.x - 20,
+    })
+      .to(this.position, {
+        x: this.position.x + 40,
+        duration: 0.1,
+        onComplete: () => {
+          gsap.to(recipient.position, {
+            x: recipient.position.x - 30,
+            duration: 0.1,
+            yoyo: true,
+            repeat: 5
+          })
+
+          gsap.to(recipient.opacity, {
+            opacity: 0,
+            duration: 0.1,
+            yoyo: true,
+            repeat: 5,
+          });
+        }
+      })
+      .to(this.position, {
+        x: this.position.x - 20,
+      });
   }
 }
 

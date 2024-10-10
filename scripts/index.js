@@ -128,7 +128,7 @@ const draggle = new Sprite({
 
 const emby = new Sprite({
   position: {
-    x: 280,
+    x: 290,
     y: 325,
   },
   frames: {
@@ -167,6 +167,18 @@ const runOpenWorld = () => {
 
   foreground.draw(c);
 };
+
+const tackleBtn = document.getElementById("tackle");
+tackleBtn.addEventListener("click", () => {
+  emby.attack({
+    attack: {
+      name: "tackle",
+      type: "normal",
+      damage: 10,
+    },
+    recipient: draggle,
+  });
+});
 
 const battleAnimationLoop = () => {
   const animationId = requestAnimationFrame(battleAnimationLoop);
