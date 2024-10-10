@@ -1,11 +1,18 @@
 class Sprite {
-  constructor({ position, image, frames = { max: 1, hold: 15 }, sprites, animate = false }) {
+  constructor({
+    position,
+    image,
+    frames = { max: 1, hold: 15 },
+    sprites,
+    animate = false,
+  }) {
     this.position = position;
     this.image = image;
     this.frames = { ...frames, val: 0, laps: 0 };
     this.animate = animate;
     this.sprites = sprites;
     this.opacity = 1;
+    this.health = 100;
 
     image.onload = () => {
       this.width = image.width / frames.max;
@@ -38,7 +45,7 @@ class Sprite {
     }
   }
 
-  attack({attack, recipient}){
+  attack({ attack, recipient }) {
     const tl = gsap.timeline();
 
     tl.to(this.position, {
@@ -48,20 +55,26 @@ class Sprite {
         x: this.position.x + 40,
         duration: 0.1,
         onComplete: () => {
+          gsap.to("#enemyHealth", {
+            width: recipient.health - attack.damage + "%",
+          });
+
+          recipient.health -= attack.damage;
+
           gsap.to(recipient.position, {
-            x: recipient.position.x - 30,
+            x: recipient.position.x - 10,
             duration: 0.1,
             yoyo: true,
-            repeat: 5
-          })
+            repeat: 5,
+          });
 
-          gsap.to(recipient.opacity, {
+          gsap.to(recipient, {
             opacity: 0,
             duration: 0.1,
             yoyo: true,
             repeat: 5,
           });
-        }
+        },
       })
       .to(this.position, {
         x: this.position.x - 20,
