@@ -1,9 +1,26 @@
+*{
+
+  font-family: "Press Start 2P", system-ui;
+
+}
+
 body{
   background-color: black;
 }
 
 h1{
   margin-top: 0;
+}
+
+button {
+  border: 0px;
+  font-size: 16px;
+  background-color: white;
+}
+
+button:hover {
+  background-color: rgb(200, 198, 198);
+  cursor: pointer;
 }
 
 .relative {
@@ -40,21 +57,20 @@ h1{
 .attackSelection{
   width: 66.66%;
   display: grid;
-  grid-template-columns: 50% 50%;
+  grid-template-columns: repeat(2, 1fr);
   border-right: 3px black solid;
 
 }
 
-.attackSelection > button {
-  border: 0px;
-  background-color: white;
-}
-
-.attackSelection > button:hover {
-  background-color: rgb(200, 198, 198);
-  cursor: pointer;
-}
-
 .attackInfo{
   width: 33.33%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.attackInfo > h1{
+  text-align: center;
+  font-size: 16px;
 }
