@@ -1,29 +1,76 @@
+*{
 
-.relative {
-
-  position: relative;
-
-  display: inline-block;
+  font-family: "Press Start 2P", system-ui;
 
 }
 
+body{
+  background-color: black;
+}
+
+h1{
+  margin-top: 0;
+}
+
+button {
+  border: 0px;
+  font-size: 16px;
+  background-color: white;
+}
+
+button:hover {
+  background-color: rgb(200, 198, 198);
+  cursor: pointer;
+}
+
+.relative {
+  position: relative;
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+}
 
 .overlay {
-
   position: absolute;
-
   top: 0;
-
   left: 0;
-
   bottom: 0;
-
   right: 0;
-
   background-color: black;
-
   pointer-events: none;
-
   opacity: 0;
+}
 
+.attackBar{
+  margin: 0;
+  padding: 0;
+  background-color: white;
+  height: 140px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-top: 5px black solid;
+  display: flex;
+}
+
+.attackSelection{
+  width: 66.66%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  border-right: 3px black solid;
+
+}
+
+.attackInfo{
+  width: 33.33%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.attackInfo > h1{
+  text-align: center;
+  font-size: 16px;
 }
