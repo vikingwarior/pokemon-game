@@ -3,6 +3,7 @@ import Boundary from "./Boundary.js";
 
 import { collisions } from "./data/collisions.js";
 import { battleZones } from "./data/battleZones.js";
+import Attacks from "./data/Attacks.js";
 
 const canvas = document.querySelector("canvas");
 
@@ -169,15 +170,13 @@ const runOpenWorld = () => {
   foreground.draw(c);
 };
 
-const tackleBtn = document.getElementById("tackle");
-tackleBtn.addEventListener("click", () => {
-  draggle.attack({
-    attack: {
-      name: "tackle",
-      type: "normal",
-      damage: 10,
-    },
-    recipient: emby,
+
+document.querySelectorAll("button").forEach(attackBtn => {
+  attackBtn.addEventListener("click", () => {    
+    emby.attack({
+      attack: Attacks[attackBtn.innerHTML],
+      recipient: draggle,
+    });
   });
 });
 
@@ -188,6 +187,7 @@ const battleAnimationLoop = () => {
   emby.draw(c);
 };
 
+// Tracking for moving objects
 const movables = [
   background,
   foreground,
@@ -195,6 +195,8 @@ const movables = [
   ...battleZoneBoundaries,
 ];
 
+
+// Returns true if given sprites are colliding 
 const isColliding = (sprite1, sprite2) => {
   return (
     sprite1.position.x + sprite1.width >= sprite2.position.x &&

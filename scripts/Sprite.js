@@ -59,7 +59,15 @@ class Sprite {
     const tl = gsap.timeline();
     recipient.health -= attack.damage;
 
-    this.useTackle(tl, recipient);
+    switch (attack.name) {
+      case "Tackle":
+        this.useTackle(tl, recipient);
+        break;
+
+      case "Fireball":
+        this.useFireBall(tl, recipient);
+        break;
+    }
   }
 
   useTackle(tl, recipient) {
@@ -92,6 +100,10 @@ class Sprite {
       .to(this.position, {
         x: this.position.x,
       });
+  }
+
+  useFireBall(tl, recipient){
+
   }
 }
 
