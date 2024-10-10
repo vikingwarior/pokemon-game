@@ -124,6 +124,7 @@ const draggle = new Sprite({
   },
   image: draggleImage,
   animate: true,
+  isEnemy: true,
 });
 
 const emby = new Sprite({
@@ -170,13 +171,13 @@ const runOpenWorld = () => {
 
 const tackleBtn = document.getElementById("tackle");
 tackleBtn.addEventListener("click", () => {
-  emby.attack({
+  draggle.attack({
     attack: {
       name: "tackle",
       type: "normal",
       damage: 10,
     },
-    recipient: draggle,
+    recipient: emby,
   });
 });
 

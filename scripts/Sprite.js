@@ -5,6 +5,7 @@ class Sprite {
     frames = { max: 1, hold: 15 },
     sprites,
     animate = false,
+    isEnemy = false,
   }) {
     this.position = position;
     this.image = image;
@@ -13,6 +14,15 @@ class Sprite {
     this.sprites = sprites;
     this.opacity = 1;
     this.health = 100;
+    this.isEnemy = isEnemy;
+
+    this.movementDelta = 20;
+    this.opponentHealthBarId = "#enemyHealthBar";
+
+    if (isEnemy) {
+      this.movementDelta = -20;
+      this.opponentHealthBarId = "#playerHealthBar";
+    }
 
     image.onload = () => {
       this.width = image.width / frames.max;
@@ -49,13 +59,13 @@ class Sprite {
     const tl = gsap.timeline();
 
     tl.to(this.position, {
-      x: this.position.x - 20,
+      x: this.position.x - this.movementDelta,
     })
       .to(this.position, {
-        x: this.position.x + 40,
+        x: this.position.x + this.movementDelta * 2,
         duration: 0.1,
         onComplete: () => {
-          gsap.to("#enemyHealth", {
+          gsap.to(this.opponentHealthBarId, {
             width: recipient.health - attack.damage + "%",
           });
 
@@ -77,7 +87,7 @@ class Sprite {
         },
       })
       .to(this.position, {
-        x: this.position.x - 20,
+        x: this.position.x,
       });
   }
 }
