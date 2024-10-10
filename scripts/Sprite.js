@@ -57,7 +57,12 @@ class Sprite {
 
   attack({ attack, recipient }) {
     const tl = gsap.timeline();
+    recipient.health -= attack.damage;
 
+    this.useTackle(tl, recipient);
+  }
+
+  useTackle(tl, recipient) {
     tl.to(this.position, {
       x: this.position.x - this.movementDelta,
     })
@@ -66,10 +71,8 @@ class Sprite {
         duration: 0.1,
         onComplete: () => {
           gsap.to(this.opponentHealthBarId, {
-            width: recipient.health - attack.damage + "%",
+            width: recipient.health + "%",
           });
-
-          recipient.health -= attack.damage;
 
           gsap.to(recipient.position, {
             x: recipient.position.x - 10,
