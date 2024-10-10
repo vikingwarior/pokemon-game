@@ -1,9 +1,17 @@
+body{
+  background-color: black;
+}
+
+h1{
+  margin-top: 0;
+}
 
 .relative {
   position: relative;
   display: inline-block;
+  margin: 0;
+  padding: 0;
 }
-
 
 .overlay {
   position: absolute;
@@ -14,4 +22,39 @@
   background-color: black;
   pointer-events: none;
   opacity: 0;
+}
+
+.attackBar{
+  margin: 0;
+  padding: 0;
+  background-color: white;
+  height: 140px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-top: 5px black solid;
+  display: flex;
+}
+
+.attackSelection{
+  width: 66.66%;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  border-right: 3px black solid;
+
+}
+
+.attackSelection > button {
+  border: 0px;
+  background-color: white;
+}
+
+.attackSelection > button:hover {
+  background-color: rgb(200, 198, 198);
+  cursor: pointer;
+}
+
+.attackInfo{
+  width: 33.33%;
 }
