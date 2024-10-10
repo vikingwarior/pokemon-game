@@ -9,7 +9,8 @@ body{
 }
 
 h1{
-  margin-top: 0;
+  margin: 0;
+  font-size: 16px;
 }
 
 button {
@@ -50,7 +51,7 @@ button:hover {
   bottom: 0;
   left: 0;
   right: 0;
-  border-top: 5px black solid;
+  border-top: 4px black solid;
   display: flex;
 }
 
@@ -58,7 +59,7 @@ button:hover {
   width: 66.66%;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  border-right: 3px black solid;
+  border-right: 4px black solid;
 
 }
 
@@ -72,5 +73,42 @@ button:hover {
 
 .attackInfo > h1{
   text-align: center;
-  font-size: 16px;
+}
+
+.monsterInfo{
+  position: absolute;
+  padding: 12px;
+  width: 250px;
+  background-color: white;
+  border: 4px black solid;
+}
+
+.monster-1{
+  top: 40px;
+  left: 40px;
+}
+
+.monster-2{
+  bottom: 188px;
+  right: 40px;
+}
+
+.relative-pos{
+  position: relative;
+}
+
+.healthBar{
+  height: 5px;
+  background-color: #ccc;
+  margin-top: 10px;
+}
+
+.healthBar.green{
+  margin-top: 0;
+  position: absolute;
+  background-color: green;
+  height: 5px;
+  top: 0;
+  left: 0;
+  right: 0;
 }
