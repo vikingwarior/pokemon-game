@@ -103,7 +103,16 @@ class Sprite {
   }
 
   useFireBall(tl, recipient){
+    const fireballImage = new Image();
+    fireballImage.src = "../assets/img/monster-sprites/fireball.png";
 
+    const fireball = new Sprite({
+      position: this.position,
+      image: fireballImage,
+      frames: {
+        max: 4
+      }
+    })
   }
 }
 
