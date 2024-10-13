@@ -176,15 +176,20 @@ document.querySelectorAll("button").forEach(attackBtn => {
     emby.attack({
       attack: Attacks[attackBtn.innerHTML],
       recipient: draggle,
+      attackSprites: spritesToRender,
     });
   });
 });
 
+
+const spritesToRender = [];
 const battleAnimationLoop = () => {
   const animationId = requestAnimationFrame(battleAnimationLoop);
   battleZone.draw(c);
   draggle.draw(c);
   emby.draw(c);
+
+  spritesToRender.forEach(sprite => sprite.draw(c));
 };
 
 // Tracking for moving objects

@@ -55,7 +55,7 @@ class Sprite {
     }
   }
 
-  attack({ attack, recipient }) {
+  attack({ attack, recipient, attackSprites }) {
     const tl = gsap.timeline();
     recipient.health -= attack.damage;
 
@@ -65,7 +65,7 @@ class Sprite {
         break;
 
       case "Fireball":
-        this.useFireBall(tl, recipient);
+        this.useFireBall(recipient, attackSprites);
         break;
     }
   }
@@ -102,17 +102,33 @@ class Sprite {
       });
   }
 
-  useFireBall(tl, recipient){
+  useFireBall(recipient, attackSprites) {
     const fireballImage = new Image();
     fireballImage.src = "../assets/img/monster-sprites/fireball.png";
 
     const fireball = new Sprite({
-      position: this.position,
+      position: { 
+        x: this.position.x, 
+        y: this.position.y 
+      },
       image: fireballImage,
       frames: {
-        max: 4
+        max: 4,
+        hold: 10,
+      },
+      animate: true,
+    });
+
+    attackSprites.push(fireball);
+
+    gsap.to(fireball.position, {
+      x: recipient.position.x,
+      y: recipient.position.y,
+
+      onComplete: () =>{
+        attackSprites.pop();
       }
-    })
+    });
   }
 }
 
