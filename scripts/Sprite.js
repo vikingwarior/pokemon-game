@@ -1,5 +1,6 @@
 class Sprite {
   constructor({
+    canvasPlane,
     position,
     image,
     frames = { max: 1, hold: 15 },
@@ -7,6 +8,7 @@ class Sprite {
     animate = false,
     isEnemy = false,
   }) {
+    this.canvasPlane = canvasPlane; 
     this.position = position;
     this.image = image;
     this.frames = { ...frames, val: 0, laps: 0 };
@@ -30,11 +32,11 @@ class Sprite {
     };
   }
 
-  draw(canvasPlane) {
+  draw() {
     const { x, y } = this.position;
-    canvasPlane.save();
-    canvasPlane.globalAlpha = this.opacity;
-    canvasPlane.drawImage(
+    this.canvasPlane.save();
+    this.canvasPlane.globalAlpha = this.opacity;
+    this.canvasPlane.drawImage(
       this.image, // image
       this.frames.val * this.width, // sx -> start clipping X coordinate
       0, // sy -> start clipping Y coordinate
@@ -45,7 +47,7 @@ class Sprite {
       this.width, // width of the image
       this.height // height of the image
     );
-    canvasPlane.restore();
+    this.canvasPlane.restore();
 
     if (!this.animate) return;
 
@@ -91,6 +93,7 @@ class Sprite {
     fireballImage.src = "../assets/img/monster-sprites/fireball.png";
 
     const fireball = new Sprite({
+      canvasPlane: this.canvasPlane,
       position: {
         x: this.position.x,
         y: this.position.y,

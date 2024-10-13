@@ -56,6 +56,7 @@ foregroundImage.src = "../assets/img/foreground_objects.png";
 battleZoneImage.src = "../assets/img/battleBackground.png";
 
 const background = new Sprite({
+  canvasPlane: c,
   position: {
     x: offset.x,
     y: offset.y,
@@ -64,6 +65,7 @@ const background = new Sprite({
 });
 
 const foreground = new Sprite({
+  canvasPlane: c,
   position: {
     x: offset.x,
     y: offset.y,
@@ -72,6 +74,7 @@ const foreground = new Sprite({
 });
 
 const battleZone = new Sprite({
+  canvasPlane: c,
   position: {
     x: 0,
     y: 0,
@@ -91,6 +94,7 @@ playerDown.src = "../assets/img/player-sprites/playerDown.png";
 playerRight.src = "../assets/img/player-sprites/playerRight.png";
 
 const player = new Sprite({
+  canvasPlane: c,
   position: {
     x: canvas.width / 2 - playerDown.width / 2,
     y: canvas.height / 2 - playerDown.height,
@@ -115,6 +119,7 @@ draggleImage.src = "../assets/img/monster-sprites/draggleSprite.png";
 embyImage.src = "../assets/img/monster-sprites/embySprite.png";
 
 const draggle = new Sprite({
+  canvasPlane: c,
   position: {
     x: 800,
     y: 100,
@@ -129,6 +134,7 @@ const draggle = new Sprite({
 });
 
 const emby = new Sprite({
+  canvasPlane: c,
   position: {
     x: 290,
     y: 325,
@@ -155,19 +161,19 @@ const runOpenWorld = () => {
 
   movePlayerIfKeyPressed(animationId);
 
-  background.draw(c);
+  background.draw();
 
   collisionBoundaries.forEach((boundary) => {
-    boundary.draw(c);
+    boundary.draw();
   });
 
   battleZoneBoundaries.forEach((boundary) => {
-    boundary.draw(c);
+    boundary.draw();
   });
 
-  player.draw(c);
+  player.draw();
 
-  foreground.draw(c);
+  foreground.draw();
 };
 
 
@@ -185,9 +191,9 @@ document.querySelectorAll("button").forEach(attackBtn => {
 const spritesToRender = [draggle, emby];
 const battleAnimationLoop = () => {
   const animationId = requestAnimationFrame(battleAnimationLoop);
-  battleZone.draw(c);
+  battleZone.draw();
 
-  spritesToRender.forEach(sprite => sprite.draw(c));
+  spritesToRender.forEach(sprite => sprite.draw());
 };
 
 // Tracking for moving objects
