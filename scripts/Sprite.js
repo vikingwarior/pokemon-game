@@ -78,23 +78,7 @@ class Sprite {
         x: this.position.x + this.movementDelta * 2,
         duration: 0.1,
         onComplete: () => {
-          gsap.to(this.opponentHealthBarId, {
-            width: recipient.health + "%",
-          });
-
-          gsap.to(recipient.position, {
-            x: recipient.position.x - 10,
-            duration: 0.1,
-            yoyo: true,
-            repeat: 5,
-          });
-
-          gsap.to(recipient, {
-            opacity: 0,
-            duration: 0.1,
-            yoyo: true,
-            repeat: 5,
-          });
+          this.loadOpponentHitAnimation(recipient);
         },
       })
       .to(this.position, {
@@ -107,9 +91,9 @@ class Sprite {
     fireballImage.src = "../assets/img/monster-sprites/fireball.png";
 
     const fireball = new Sprite({
-      position: { 
-        x: this.position.x, 
-        y: this.position.y 
+      position: {
+        x: this.position.x,
+        y: this.position.y,
       },
       image: fireballImage,
       frames: {
@@ -119,15 +103,36 @@ class Sprite {
       animate: true,
     });
 
-    attackSprites.push(fireball);
+    attackSprites.splice(1, 0, fireball);
 
     gsap.to(fireball.position, {
       x: recipient.position.x,
       y: recipient.position.y,
 
-      onComplete: () =>{
-        attackSprites.pop();
-      }
+      onComplete: () => {
+        attackSprites.splice(1, 1);
+        this.loadOpponentHitAnimation(recipient);
+      },
+    });
+  }
+
+  loadOpponentHitAnimation(recipient) {
+    gsap.to(this.opponentHealthBarId, {
+      width: recipient.health + "%",
+    });
+
+    gsap.to(recipient.position, {
+      x: recipient.position.x - 10,
+      duration: 0.1,
+      yoyo: true,
+      repeat: 5,
+    });
+
+    gsap.to(recipient, {
+      opacity: 0,
+      duration: 0.1,
+      yoyo: true,
+      repeat: 5,
     });
   }
 }

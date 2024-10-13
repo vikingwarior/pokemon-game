@@ -182,12 +182,10 @@ document.querySelectorAll("button").forEach(attackBtn => {
 });
 
 
-const spritesToRender = [];
+const spritesToRender = [draggle, emby];
 const battleAnimationLoop = () => {
   const animationId = requestAnimationFrame(battleAnimationLoop);
   battleZone.draw(c);
-  draggle.draw(c);
-  emby.draw(c);
 
   spritesToRender.forEach(sprite => sprite.draw(c));
 };
