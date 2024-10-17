@@ -3,6 +3,7 @@ import Boundary from "./Boundary.js";
 
 import { collisions } from "./data/collisions.js";
 import { battleZones } from "./data/battleZones.js";
+import Attacks from "./data/Attacks.js";
 
 const canvas = document.querySelector("canvas");
 
@@ -55,6 +56,7 @@ foregroundImage.src = "../assets/img/foreground_objects.png";
 battleZoneImage.src = "../assets/img/battleBackground.png";
 
 const background = new Sprite({
+  canvasPlane: c,
   position: {
     x: offset.x,
     y: offset.y,
@@ -63,6 +65,7 @@ const background = new Sprite({
 });
 
 const foreground = new Sprite({
+  canvasPlane: c,
   position: {
     x: offset.x,
     y: offset.y,
@@ -71,6 +74,7 @@ const foreground = new Sprite({
 });
 
 const battleZone = new Sprite({
+  canvasPlane: c,
   position: {
     x: 0,
     y: 0,
@@ -90,6 +94,7 @@ playerDown.src = "../assets/img/player-sprites/playerDown.png";
 playerRight.src = "../assets/img/player-sprites/playerRight.png";
 
 const player = new Sprite({
+  canvasPlane: c,
   position: {
     x: canvas.width / 2 - playerDown.width / 2,
     y: canvas.height / 2 - playerDown.height,
@@ -114,6 +119,7 @@ draggleImage.src = "../assets/img/monster-sprites/draggleSprite.png";
 embyImage.src = "../assets/img/monster-sprites/embySprite.png";
 
 const draggle = new Sprite({
+  canvasPlane: c,
   position: {
     x: 800,
     y: 100,
@@ -128,6 +134,7 @@ const draggle = new Sprite({
 });
 
 const emby = new Sprite({
+  canvasPlane: c,
   position: {
     x: 290,
     y: 325,
@@ -154,40 +161,42 @@ const runOpenWorld = () => {
 
   movePlayerIfKeyPressed(animationId);
 
-  background.draw(c);
+  background.draw();
 
   collisionBoundaries.forEach((boundary) => {
-    boundary.draw(c);
+    boundary.draw();
   });
 
   battleZoneBoundaries.forEach((boundary) => {
-    boundary.draw(c);
+    boundary.draw();
   });
 
-  player.draw(c);
+  player.draw();
 
-  foreground.draw(c);
+  foreground.draw();
 };
 
-const tackleBtn = document.getElementById("tackle");
-tackleBtn.addEventListener("click", () => {
-  draggle.attack({
-    attack: {
-      name: "tackle",
-      type: "normal",
-      damage: 10,
-    },
-    recipient: emby,
+
+document.querySelectorAll("button").forEach(attackBtn => {
+  attackBtn.addEventListener("click", () => {    
+    emby.attack({
+      attack: Attacks[attackBtn.innerHTML],
+      recipient: draggle,
+      attackSprites: spritesToRender,
+    });
   });
 });
 
+
+const spritesToRender = [draggle, emby];
 const battleAnimationLoop = () => {
   const animationId = requestAnimationFrame(battleAnimationLoop);
-  battleZone.draw(c);
-  draggle.draw(c);
-  emby.draw(c);
+  battleZone.draw();
+
+  spritesToRender.forEach(sprite => sprite.draw());
 };
 
+// Tracking for moving objects
 const movables = [
   background,
   foreground,
@@ -195,6 +204,8 @@ const movables = [
   ...battleZoneBoundaries,
 ];
 
+
+// Returns true if given sprites are colliding 
 const isColliding = (sprite1, sprite2) => {
   return (
     sprite1.position.x + sprite1.width >= sprite2.position.x &&
