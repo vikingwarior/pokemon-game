@@ -7,8 +7,9 @@ class Sprite {
     sprites,
     animate = false,
     isEnemy = false,
+    name,
   }) {
-    this.canvasPlane = canvasPlane; 
+    this.canvasPlane = canvasPlane;
     this.position = position;
     this.image = image;
     this.frames = { ...frames, val: 0, laps: 0 };
@@ -17,6 +18,7 @@ class Sprite {
     this.opacity = 1;
     this.health = 100;
     this.isEnemy = isEnemy;
+    this.name = name;
 
     this.movementDelta = 20;
     this.opponentHealthBarId = "#enemyHealthBar";
@@ -60,6 +62,12 @@ class Sprite {
   attack({ attack, recipient, attackSprites }) {
     const tl = gsap.timeline();
     recipient.health -= attack.damage;
+
+    const attackInfoDiv = document.querySelector("div.attackBarDialogue");
+    
+    // Queue attack sequence:
+    attackInfoDiv.innerHTML = `${this.name} used ${attack.name}`;
+    attackInfoDiv.removeAttribute("hidden");
 
     switch (attack.name) {
       case "Tackle":

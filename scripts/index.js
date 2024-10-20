@@ -131,6 +131,7 @@ const draggle = new Sprite({
   image: draggleImage,
   animate: true,
   isEnemy: true,
+  name: "Draggle"
 });
 
 const emby = new Sprite({
@@ -145,6 +146,7 @@ const emby = new Sprite({
   },
   image: embyImage,
   animate: true,
+  name: "Emby",
 });
 
 // Key Presses Tracker Object
@@ -176,24 +178,40 @@ const runOpenWorld = () => {
   foreground.draw();
 };
 
+const attackQueue = [];
 
-document.querySelectorAll("button").forEach(attackBtn => {
-  attackBtn.addEventListener("click", () => {    
+document.querySelectorAll("button").forEach((attackBtn) => {
+  attackBtn.addEventListener("click", () => {
     emby.attack({
       attack: Attacks[attackBtn.innerHTML],
       recipient: draggle,
       attackSprites: spritesToRender,
     });
+
+    attackQueue.push(() =>
+      draggle.attack({
+        attack: Attacks.Tackle,
+        recipient: emby,
+        attackSprites: spritesToRender,
+      })
+    );
   });
 });
 
+const attackInfoDiv = document.querySelector("div.attackBarDialogue");
+attackInfoDiv.addEventListener("click", (e) => {
+  if (attackQueue.length > 0) {
+    attackQueue[0]();
+    attackQueue.shift();
+  } else e.target.setAttribute("hidden", "true");
+});
 
 const spritesToRender = [draggle, emby];
 const battleAnimationLoop = () => {
   const animationId = requestAnimationFrame(battleAnimationLoop);
   battleZone.draw();
 
-  spritesToRender.forEach(sprite => sprite.draw());
+  spritesToRender.forEach((sprite) => sprite.draw());
 };
 
 // Tracking for moving objects
@@ -204,8 +222,7 @@ const movables = [
   ...battleZoneBoundaries,
 ];
 
-
-// Returns true if given sprites are colliding 
+// Returns true if given sprites are colliding
 const isColliding = (sprite1, sprite2) => {
   return (
     sprite1.position.x + sprite1.width >= sprite2.position.x &&
