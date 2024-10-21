@@ -1,4 +1,4 @@
-import Sprite from "../Sprite.js";
+import Sprite from "./Sprite.js";
 
 class Monster extends Sprite {
   constructor({

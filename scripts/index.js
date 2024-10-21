@@ -1,5 +1,5 @@
-import Sprite from "./Sprite.js";
-import Boundary from "./Boundary.js";
+import Sprite from "./classes/Sprite.js";
+import Boundary from "./classes/Boundary.js";
 import Monster from "./classes/Monster.js";
 
 import { collisions } from "./data/collisions.js";
@@ -32,6 +32,7 @@ const extractBoundaryCoordinates = (boundaryArray) => {
       if (item === 1025) {
         boundaryCoordinates.push(
           new Boundary({
+            canvasPlane: c,
             position: {
               x: colIndex * Boundary.width + offset.x,
               y: rowIndex * Boundary.height + offset.y,
