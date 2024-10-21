@@ -1,5 +1,6 @@
 import Sprite from "./Sprite.js";
 import Boundary from "./Boundary.js";
+import Monster from "./classes/Monster.js";
 
 import { collisions } from "./data/collisions.js";
 import { battleZones } from "./data/battleZones.js";
@@ -119,9 +120,9 @@ const embyImage = new Image();
 draggleImage.src = "../assets/img/monster-sprites/draggleSprite.png";
 embyImage.src = "../assets/img/monster-sprites/embySprite.png";
 
-const draggle = new Sprite(Draggle);
+const draggle = new Monster(Draggle);
 
-const emby = new Sprite(Emby);
+const emby = new Monster(Emby);
 
 // Key Presses Tracker Object
 const keys = {

@@ -1,3 +1,5 @@
+import Attacks from "./Attacks.js";
+
 const canvas = document.querySelector("canvas");
 const c = canvas.getContext("2d");
 
@@ -21,6 +23,7 @@ export const Draggle = {
   animate: true,
   isEnemy: true,
   name: "Draggle",
+  attacks: [Attacks.Tackle]
 };
 
 export const Emby = {
@@ -36,4 +39,5 @@ export const Emby = {
   image: embyImage,
   animate: true,
   name: "Emby",
+  attacks: [Attacks.Tackle, Attacks.Fireball],
 };
