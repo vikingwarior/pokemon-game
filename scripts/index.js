@@ -1,5 +1,5 @@
-import Sprite from "./Sprite.js";
-import Boundary from "./Boundary.js";
+import Sprite from "./classes/Sprite.js";
+import Boundary from "./classes/Boundary.js";
 import Monster from "./classes/Monster.js";
 
 import { collisions } from "./data/collisions.js";
@@ -32,6 +32,7 @@ const extractBoundaryCoordinates = (boundaryArray) => {
       if (item === 1025) {
         boundaryCoordinates.push(
           new Boundary({
+            canvasPlane: c,
             position: {
               x: colIndex * Boundary.width + offset.x,
               y: rowIndex * Boundary.height + offset.y,
@@ -154,6 +155,7 @@ const runOpenWorld = () => {
 };
 
 const attackQueue = [];
+const attackTypeDiv = document.querySelector("div.attackInfo");
 
 document.querySelectorAll("button").forEach((attackBtn) => {
   attackBtn.addEventListener("click", () => {
@@ -163,6 +165,13 @@ document.querySelectorAll("button").forEach((attackBtn) => {
       attackSprites: spritesToRender,
     });
 
+    if (draggle.health <= 0) {
+      attackQueue.push(() =>
+        draggle.faint()
+      );
+      return;
+    }
+
     attackQueue.push(() =>
       draggle.attack({
         attack: Attacks.Tackle,
@@ -170,6 +179,14 @@ document.querySelectorAll("button").forEach((attackBtn) => {
         attackSprites: spritesToRender,
       })
     );
+  });
+
+  attackBtn.addEventListener("mouseenter", () => {
+    attackTypeDiv.innerHTML = `Attack Type:<br/>${Attacks[attackBtn.innerHTML].type}`;
+  });
+
+  attackBtn.addEventListener("mouseleave", () => {
+    attackTypeDiv.innerHTML = `Attack Type:<br/>`;
   });
 });
 
