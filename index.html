@@ -11,31 +11,33 @@
   <link rel="stylesheet" type="text/css" href="styles/styles.css">
 </head>
 <div class="relative">
-  <div id="overlay" class="overlay"></div>
-  <!-- Opponent Monster Health Bar -->
-  <div class="monsterInfo monster-1">
-    <h1>Draggle</h1>
-    <div class="relative-pos">
-      <div class="healthBar"></div>
-      <div id="enemyHealthBar" class="healthBar green"></div>
-    </div>
-  </div>
-  <!-- Player Monster Health Bar -->
-  <div class="monsterInfo monster-2">
-    <h1>Emby</h1>
-    <div class="relative-pos">
-      <div class="healthBar"></div>
-      <div id="playerHealthBar" class="healthBar green"></div>
-    </div>
-  </div>
   <canvas></canvas>
-  <div class="attackBar">
-    <div class="attackBarDialogue" hidden>
+  <div class="battleInterface" hidden>
+    <div id="overlay" class="overlay"></div>
+    <!-- Opponent Monster Health Bar -->
+    <div class="monsterInfo monster-1">
+      <h1>Draggle</h1>
+      <div class="relative-pos">
+        <div class="healthBar"></div>
+        <div id="enemyHealthBar" class="healthBar green"></div>
+      </div>
     </div>
-    <div class="attackSelection">
+    <!-- Player Monster Health Bar -->
+    <div class="monsterInfo monster-2">
+      <h1>Emby</h1>
+      <div class="relative-pos">
+        <div class="healthBar"></div>
+        <div id="playerHealthBar" class="healthBar green"></div>
+      </div>
     </div>
-    <div class="attackInfo">
-      <h1></h1>
+    <div class="attackBar">
+      <div class="attackBarDialogue" hidden>
+      </div>
+      <div class="attackSelection">
+      </div>
+      <div class="attackInfo">
+        <h1></h1>
+      </div>
     </div>
   </div>
 </div>

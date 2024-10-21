@@ -40,6 +40,7 @@ button:hover {
   background-color: black;
   pointer-events: none;
   opacity: 0;
+  z-index: 10;
 }
 
 .attackBar{
