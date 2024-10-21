@@ -10,7 +10,7 @@ class Monster extends Sprite {
     frames,
     sprites,
     animate,
-    attacks
+    attacks,
   }) {
     super({
       canvasPlane,
@@ -38,10 +38,27 @@ class Monster extends Sprite {
   }
 
   generateAttacksForMonster(attacks) {
-    attacks.forEach(attack => {
+    attacks.forEach((attack) => {
       const attackBtn = document.createElement("button");
       attackBtn.innerHTML = attack.name;
       this.attackContainer.appendChild(attackBtn);
+    });
+  }
+
+  faint() {
+    const attackBarDialogueElem = document.querySelector(
+      "div.attackBarDialogue"
+    );
+
+    attackBarDialogueElem.innerHTML = `${this.name} Fainted!`;
+    attackBarDialogueElem.removeAttribute("hidden");
+
+    gsap.to(this.position, {
+      y: this.position.y + 20,
+    });
+
+    gsap.to(this, {
+      opacity: 0,
     });
   }
 

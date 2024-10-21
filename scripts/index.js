@@ -165,6 +165,13 @@ document.querySelectorAll("button").forEach((attackBtn) => {
       attackSprites: spritesToRender,
     });
 
+    if (draggle.health <= 0) {
+      attackQueue.push(() =>
+        draggle.faint()
+      );
+      return;
+    }
+
     attackQueue.push(() =>
       draggle.attack({
         attack: Attacks.Tackle,
