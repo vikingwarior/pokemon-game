@@ -155,6 +155,7 @@ const runOpenWorld = () => {
 };
 
 const attackQueue = [];
+const attackTypeDiv = document.querySelector("div.attackInfo");
 
 document.querySelectorAll("button").forEach((attackBtn) => {
   attackBtn.addEventListener("click", () => {
@@ -171,6 +172,14 @@ document.querySelectorAll("button").forEach((attackBtn) => {
         attackSprites: spritesToRender,
       })
     );
+  });
+
+  attackBtn.addEventListener("mouseenter", () => {
+    attackTypeDiv.innerHTML = `Attack Type:<br/>${Attacks[attackBtn.innerHTML].type}`;
+  });
+
+  attackBtn.addEventListener("mouseleave", () => {
+    attackTypeDiv.innerHTML = `Attack Type:<br/>`;
   });
 });
 
