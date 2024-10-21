@@ -166,23 +166,27 @@ document.querySelectorAll("button").forEach((attackBtn) => {
     });
 
     if (draggle.health <= 0) {
-      attackQueue.push(() =>
-        draggle.faint()
-      );
+      attackQueue.push(() => draggle.faint());
       return;
     }
 
-    attackQueue.push(() =>
+    attackQueue.push(() => {
       draggle.attack({
         attack: Attacks.Tackle,
         recipient: emby,
         attackSprites: spritesToRender,
-      })
-    );
+      });
+
+      if (emby.health <= 0) {
+        emby.faint();
+      }
+    });
   });
 
   attackBtn.addEventListener("mouseenter", () => {
-    attackTypeDiv.innerHTML = `Attack Type:<br/>${Attacks[attackBtn.innerHTML].type}`;
+    attackTypeDiv.innerHTML = `Attack Type:<br/>${
+      Attacks[attackBtn.innerHTML].type
+    }`;
   });
 
   attackBtn.addEventListener("mouseleave", () => {
