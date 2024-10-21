@@ -1,11 +1,15 @@
 import Sprite from "./Sprite.js";
 import Boundary from "./Boundary.js";
+import Monster from "./classes/Monster.js";
 
 import { collisions } from "./data/collisions.js";
 import { battleZones } from "./data/battleZones.js";
+
 import Attacks from "./data/Attacks.js";
+import { Draggle, Emby } from "./data/MonsterData.js";
 
 const canvas = document.querySelector("canvas");
+const c = canvas.getContext("2d");
 
 canvas.width = 1024;
 canvas.height = 576;
@@ -43,8 +47,6 @@ const extractBoundaryCoordinates = (boundaryArray) => {
 
 let collisionBoundaries = extractBoundaryCoordinates(collisions);
 let battleZoneBoundaries = extractBoundaryCoordinates(battleZones);
-
-const c = canvas.getContext("2d");
 
 // Background Sprites
 const image = new Image();
@@ -118,36 +120,9 @@ const embyImage = new Image();
 draggleImage.src = "../assets/img/monster-sprites/draggleSprite.png";
 embyImage.src = "../assets/img/monster-sprites/embySprite.png";
 
-const draggle = new Sprite({
-  canvasPlane: c,
-  position: {
-    x: 800,
-    y: 100,
-  },
-  frames: {
-    max: 4,
-    hold: 45,
-  },
-  image: draggleImage,
-  animate: true,
-  isEnemy: true,
-  name: "Draggle"
-});
+const draggle = new Monster(Draggle);
 
-const emby = new Sprite({
-  canvasPlane: c,
-  position: {
-    x: 290,
-    y: 325,
-  },
-  frames: {
-    max: 4,
-    hold: 45,
-  },
-  image: embyImage,
-  animate: true,
-  name: "Emby",
-});
+const emby = new Monster(Emby);
 
 // Key Presses Tracker Object
 const keys = {
