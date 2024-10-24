@@ -105,7 +105,7 @@ const player = new Sprite({
   image: playerDown,
   frames: {
     max: 4,
-    hold: 15
+    hold: 15,
   },
   sprites: {
     up: playerUp,
@@ -113,120 +113,7 @@ const player = new Sprite({
     down: playerDown,
     right: playerRight,
   },
-  animate: true
-});
-
-// Monster Sprites
-const draggleImage = new Image();
-const embyImage = new Image();
-
-draggleImage.src = "../assets/img/monster-sprites/draggleSprite.png";
-embyImage.src = "../assets/img/monster-sprites/embySprite.png";
-
-let draggle = new Monster(Draggle);
-
-let emby = new Monster(Emby);
-
-// Key Presses Tracker Object
-const keys = {
-  w: { pressed: false },
-  a: { pressed: false },
-  s: { pressed: false },
-  d: { pressed: false },
-  lastKey: "",
-};
-
-const runOpenWorld = () => {
-  const animationId = requestAnimationFrame(runOpenWorld);
-
-  movePlayerIfKeyPressed(animationId);
-
-  background.draw();
-
-  collisionBoundaries.forEach((boundary) => {
-    boundary.draw();
-  });
-
-  battleZoneBoundaries.forEach((boundary) => {
-    boundary.draw();
-  });
-
-  player.draw();
-
-  foreground.draw();
-};
-
-let battleAnimationLoopId;
-const battleInterfaceContainer = document.querySelector("div.battleInterface");
-
-const spritesToRender = [draggle, emby];
-const battleAnimationLoop = () => {
-  battleAnimationLoopId = requestAnimationFrame(battleAnimationLoop);
-  battleZone.draw();
-
-  spritesToRender.forEach((sprite) => sprite.draw());
-};
-
-const attackQueue = [];
-const attackTypeDiv = document.querySelector("div.attackInfo");
-
-document.querySelectorAll("button").forEach((attackBtn) => {
-  attackBtn.addEventListener("click", () => {
-    emby.attack({
-      attack: Attacks[attackBtn.innerHTML],
-      recipient: draggle,
-      attackSprites: spritesToRender,
-    });
-
-    if (draggle.health <= 0) {
-      attackQueue.push(() => draggle.faint());
-      attackQueue.push(() => transitionToMap());
-    } else if (emby.health <= 0) {
-      emby.faint();
-      attackQueue.push(() => transitionToMap());
-    }
-
-    attackQueue.push(() => {
-      draggle.attack({
-        attack: Attacks.Tackle,
-        recipient: emby,
-        attackSprites: spritesToRender,
-      });
-    });
-  });
-
-  const transitionToMap = () => {
-    gsap.to("#overlay", {
-      opacity: 1,
-      onComplete: () => {
-        cancelAnimationFrame(battleAnimationLoopId);
-        runOpenWorld();
-        gsap.to("#overlay", { opacity: 0 });
-        battleInterfaceContainer.setAttribute("hidden", "true");
-      },
-    });
-
-  };
-
-  attackBtn.addEventListener("mouseenter", () => {
-    attackTypeDiv.innerHTML = `${Attacks[attackBtn.innerHTML].type}`;
-
-    attackTypeDiv.style.color = Attacks[attackBtn.innerHTML].color;
-  });
-
-  attackBtn.addEventListener("mouseleave", () => {
-    attackTypeDiv.innerHTML = `Attack Type`;
-
-    attackTypeDiv.style.color = "black";
-  });
-});
-
-const attackInfoDiv = document.querySelector("div.attackBarDialogue");
-attackInfoDiv.addEventListener("click", (e) => {
-  if (attackQueue.length > 0) {
-    attackQueue[0]();
-    attackQueue.shift();
-  } else e.target.setAttribute("hidden", "true");
+  animate: true,
 });
 
 // Tracking for moving objects
@@ -279,7 +166,7 @@ const movePlayerIfKeyPressed = (animationId) => {
                 gsap.to("#overlay", {
                   opacity: 0,
                   duration: 0.3,
-                });  
+                });
                 battleAnimationLoop();
                 battleInterfaceContainer.removeAttribute("hidden");
               },
@@ -409,6 +296,159 @@ window.addEventListener("keyup", (e) => {
   if (keys[e.key]) keys[e.key].pressed = false;
 });
 
+// Key Press Tracker Object
+const keys = {
+  w: { pressed: false },
+  a: { pressed: false },
+  s: { pressed: false },
+  d: { pressed: false },
+  lastKey: "",
+};
+
+const runOpenWorld = () => {
+  const animationId = requestAnimationFrame(runOpenWorld);
+
+  movePlayerIfKeyPressed(animationId);
+
+  background.draw();
+
+  collisionBoundaries.forEach((boundary) => {
+    boundary.draw();
+  });
+
+  battleZoneBoundaries.forEach((boundary) => {
+    boundary.draw();
+  });
+
+  player.draw();
+
+  foreground.draw();
+};
+
+// Battle Logic start
+
+const battleInterfaceContainer = document.querySelector("div.battleInterface");
+const attackTypeDiv = document.querySelector("div.attackInfo");
+const attackInfoDiv = document.querySelector("div.attackBarDialogue");
+
+let draggle = new Monster(Draggle);
+let emby = new Monster(Emby);
+let attackQueue = [];
+let spritesToRender = [draggle, emby];
+
+let battleAnimationLoopId;
+
+const initBattle = () => {
+  draggle.reset();
+  embydraggle.reset();
+  attackQueue = [];
+
+  document.querySelectorAll("button").forEach((attackBtn) => {
+    attackBtn.addEventListener("click", () => {
+      emby.attack({
+        attack: Attacks[attackBtn.innerHTML],
+        recipient: draggle,
+        attackSprites: spritesToRender,
+      });
+
+      if (draggle.health <= 0) {
+        attackQueue.push(() => draggle.faint());
+        attackQueue.push(() => transitionToMap());
+
+      } else if (emby.health <= 0) {
+        emby.faint();
+        attackQueue.push(() => transitionToMap());
+      }
+
+      attackQueue.push(() => {
+        draggle.attack({
+          attack: Attacks.Tackle,
+          recipient: emby,
+          attackSprites: spritesToRender,
+        });
+      });
+    });
+
+    attackBtn.addEventListener("mouseenter", () => {
+      attackTypeDiv.innerHTML = `${Attacks[attackBtn.innerHTML].type}`;
+
+      attackTypeDiv.style.color = Attacks[attackBtn.innerHTML].color;
+    });
+
+    attackBtn.addEventListener("mouseleave", () => {
+      attackTypeDiv.innerHTML = `Attack Type`;
+
+      attackTypeDiv.style.color = "black";
+    });
+  });
+};
+
+const battleAnimationLoop = () => {
+  battleAnimationLoopId = requestAnimationFrame(battleAnimationLoop);
+  battleZone.draw();
+
+  spritesToRender.forEach((sprite) => sprite.draw());
+};
+
+document.querySelectorAll("button").forEach((attackBtn) => {
+  attackBtn.addEventListener("click", () => {
+    emby.attack({
+      attack: Attacks[attackBtn.innerHTML],
+      recipient: draggle,
+      attackSprites: spritesToRender,
+    });
+
+    if (draggle.health <= 0) {
+      attackQueue.push(() => draggle.faint());
+      attackQueue.push(() => transitionToMap());
+      return;
+    } else if (emby.health <= 0) {
+      emby.faint();
+      attackQueue.push(() => transitionToMap());
+      return;
+    }
+
+    attackQueue.push(() => {
+      draggle.attack({
+        attack: Attacks.Tackle,
+        recipient: emby,
+        attackSprites: spritesToRender,
+      });
+    });
+  });
+
+  attackBtn.addEventListener("mouseenter", () => {
+    attackTypeDiv.innerHTML = `${Attacks[attackBtn.innerHTML].type}`;
+
+    attackTypeDiv.style.color = Attacks[attackBtn.innerHTML].color;
+  });
+
+  attackBtn.addEventListener("mouseleave", () => {
+    attackTypeDiv.innerHTML = `Attack Type`;
+
+    attackTypeDiv.style.color = "black";
+  });
+});
+
+const transitionToMap = () => {
+  gsap.to("#overlay", {
+    opacity: 1,
+    onComplete: () => {
+      cancelAnimationFrame(battleAnimationLoopId);
+      runOpenWorld();
+      gsap.to("#overlay", { opacity: 0 });
+      battleInterfaceContainer.setAttribute("hidden", "true");
+      initBattle();
+    },
+  });
+};
+
+attackInfoDiv.addEventListener("click", (e) => {
+  if (attackQueue.length > 0) {
+    attackQueue[0]();
+    attackQueue.shift();
+  } else e.target.setAttribute("hidden", "true");
+});
 
 // Start game
 runOpenWorld();
