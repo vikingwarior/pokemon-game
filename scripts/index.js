@@ -7,6 +7,7 @@ import { battleZones } from "./data/battleZones.js";
 
 import Attacks from "./data/Attacks.js";
 import { Draggle, Emby } from "./data/MonsterData.js";
+import { audio } from "./data/Audio.js";
 
 const canvas = document.querySelector("canvas");
 const c = canvas.getContext("2d");
@@ -96,6 +97,14 @@ playerLeft.src = "../assets/img/player-sprites/playerLeft.png";
 playerDown.src = "../assets/img/player-sprites/playerDown.png";
 playerRight.src = "../assets/img/player-sprites/playerRight.png";
 
+let clicked = false
+window.addEventListener("keydown", () => {
+  if (!clicked) {
+    clicked = true;
+    audio.openWorld.play();
+  }
+});
+
 const player = new Sprite({
   canvasPlane: c,
   position: {
@@ -152,6 +161,9 @@ const movePlayerIfKeyPressed = (animationId) => {
         cancelAnimationFrame(animationId);
         battleInitiated = true;
 
+        audio.openWorld.stop();
+        audio.initBattle.play();
+
         // Flash the screen(Transition to battle)
         gsap.to("#overlay", {
           duration: 0.3,
@@ -168,6 +180,8 @@ const movePlayerIfKeyPressed = (animationId) => {
                   duration: 0.3,
                 });
                 battleAnimationLoop();
+                audio.initBattle.stop();
+                audio.battle.play();
                 battleInterfaceContainer.removeAttribute("hidden");
               },
             });
@@ -434,11 +448,16 @@ const transitionToMap = () => {
   gsap.to("#overlay", {
     opacity: 1,
     onComplete: () => {
+      clicked = false;
       cancelAnimationFrame(battleAnimationLoopId);
+      battleAnimationLoopId = 0;
       runOpenWorld();
+
       gsap.to("#overlay", { opacity: 0 });
       battleInterfaceContainer.setAttribute("hidden", "true");
       initBattle();
+
+      audio.openWorld.play();
     },
   });
 };
