@@ -2,7 +2,7 @@ export const audio = {
   openWorld: new Howl({
     src: "../../assets/audio/openWorld.wav",
     html5: true,
-    volume: 0.3,
+    volume: 0.1,
     loop: true
   }),
 
@@ -15,7 +15,7 @@ export const audio = {
   battle: new Howl({
     src: "../../assets/audio/battle.mp3",
     html5: true,
-    volume: 0.3,
+    volume: 0.1,
     loop: true
   }),
 
