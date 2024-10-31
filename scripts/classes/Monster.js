@@ -38,6 +38,7 @@ class Monster extends Sprite {
   }
 
   generateAttacksForMonster(attacks) {
+    this.attackContainer.innerHTML = "";
     attacks.forEach((attack) => {
       const attackBtn = document.createElement("button");
       attackBtn.innerHTML = attack.name;
@@ -59,6 +60,30 @@ class Monster extends Sprite {
 
     gsap.to(this, {
       opacity: 0,
+    });
+  }
+
+  reset() {
+    this.health = 100;
+
+    document
+      .querySelector("div.attackBarDialogue")
+      .setAttribute("hidden", "true");
+
+    gsap.to(this, {
+      opacity: 1,
+    });
+
+    gsap.to(this.position, {
+      y: this.position.y - 20,
+    });
+
+    gsap.to("#playerHealthBar", {
+      width: "100%",
+    });
+
+    gsap.to("#enemyHealthBar", {
+      width: "100%",
     });
   }
 
