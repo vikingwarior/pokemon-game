@@ -48,6 +48,8 @@ class Monster extends Sprite {
   }
 
   faint() {
+    audio.battle.stop();
+    
     const attackBarDialogueElem = document.querySelector(
       "div.attackBarDialogue"
     );
@@ -63,7 +65,7 @@ class Monster extends Sprite {
       opacity: 0,
     });
 
-    audio.
+    audio.victory.play();
   }
 
   reset() {

@@ -36,10 +36,9 @@ export const audio = {
     html5: true,
     volume: 0.1,
   }),
-  
-  tackleHit: new Howl({
-    src: "../../assets/audio/tackleHit.wav",
+
+  victory: new Howl({
+    src: "../../assets/audio/victory.wav",
     html5: true,
-    volume: 0.1,
   }),
 };
