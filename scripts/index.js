@@ -99,7 +99,7 @@ playerRight.src = "../assets/img/player-sprites/playerRight.png";
 
 let clicked = false
 window.addEventListener("keydown", () => {
-  if (!clicked) {
+  if (!clicked && !battleAnimationLoopId) {
     clicked = true;
     audio.openWorld.play();
   }
@@ -181,7 +181,7 @@ const movePlayerIfKeyPressed = (animationId) => {
                 });
                 battleAnimationLoop();
                 audio.initBattle.stop();
-                audio.battle.play()
+                audio.battle.play();
                 battleInterfaceContainer.removeAttribute("hidden");
               },
             });
@@ -451,6 +451,9 @@ const transitionToMap = () => {
       cancelAnimationFrame(battleAnimationLoopId);
       runOpenWorld();
       gsap.to("#overlay", { opacity: 0 });
+      audio.battle.stop();
+      audio.openWorld.play();
+
       battleInterfaceContainer.setAttribute("hidden", "true");
       initBattle();
     },

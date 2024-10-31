@@ -1,3 +1,4 @@
+import { audio } from "../data/Audio.js";
 import Sprite from "./Sprite.js";
 
 class Monster extends Sprite {
@@ -61,6 +62,8 @@ class Monster extends Sprite {
     gsap.to(this, {
       opacity: 0,
     });
+
+    audio.
   }
 
   reset() {
@@ -103,6 +106,7 @@ class Monster extends Sprite {
         break;
 
       case "Fireball":
+        audio.initFireball.play();
         this.useFireBall(recipient, attackSprites);
         break;
     }
@@ -116,6 +120,7 @@ class Monster extends Sprite {
         x: this.position.x + this.movementDelta * 2,
         duration: 0.1,
         onComplete: () => {
+          audio.tackleHit.play();
           this.loadOpponentHitAnimation(recipient);
         },
       })
@@ -147,10 +152,10 @@ class Monster extends Sprite {
     gsap.to(fireball.position, {
       x: recipient.position.x,
       y: recipient.position.y,
-
       onComplete: () => {
         attackSprites.splice(1, 1);
         this.loadOpponentHitAnimation(recipient);
+        audio.fireballHit.play();
       },
     });
   }
