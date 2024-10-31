@@ -1,14 +1,23 @@
-*{
-
+* {
   font-family: "Press Start 2P", system-ui;
-
 }
 
-body{
-  background-color: black;
+body {
+  background-image: url("../assets/img/bg.jpg");
+  position: relative;
+  padding: 0;
+  margin: 0;
+  height: 100vh;
 }
 
-h1{
+.content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+h1 {
   margin: 0;
   font-size: 16px;
 }
@@ -26,9 +35,26 @@ button:hover {
 
 .relative {
   position: relative;
-  display: inline-block;
-  margin: 0;
-  padding: 0;
+  display: block;
+  margin: 0 auto;
+  width: fit-content;
+  text-align: center;
+}
+
+.instructions {
+  background-color: white;
+  width: fit-content;
+  padding: 20px 268px;
+}
+
+.instructions > div {
+  display: flex;
+  align-items: center;
+}
+
+.instructions > div > img {
+  width: 100px;
+  margin-right: 20px;
 }
 
 .overlay {
@@ -43,7 +69,7 @@ button:hover {
   z-index: 10;
 }
 
-.attackBar{
+.attackBar {
   margin: 0;
   padding: 0;
   background-color: white;
@@ -56,7 +82,7 @@ button:hover {
   display: flex;
 }
 
-.attackBarDialogue{
+.attackBarDialogue {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -67,15 +93,14 @@ button:hover {
   cursor: pointer;
 }
 
-.attackSelection{
+.attackSelection {
   width: 66.66%;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   border-right: 4px black solid;
-
 }
 
-.attackInfo{
+.attackInfo {
   width: 33.33%;
   display: flex;
   flex-direction: column;
@@ -83,11 +108,11 @@ button:hover {
   align-items: center;
 }
 
-.attackInfo > h1{
+.attackInfo > h1 {
   text-align: center;
 }
 
-.monsterInfo{
+.monsterInfo {
   position: absolute;
   padding: 12px;
   width: 250px;
@@ -95,27 +120,27 @@ button:hover {
   border: 4px black solid;
 }
 
-.monster-1{
+.monster-1 {
   top: 40px;
   left: 40px;
 }
 
-.monster-2{
+.monster-2 {
   bottom: 188px;
   right: 40px;
 }
 
-.relative-pos{
+.relative-pos {
   position: relative;
 }
 
-.healthBar{
+.healthBar {
   height: 5px;
   background-color: #ccc;
   margin-top: 10px;
 }
 
-.healthBar.green{
+.healthBar.green {
   margin-top: 0;
   position: absolute;
   background-color: green;

@@ -11,34 +11,46 @@
   <link rel="icon" type="image/x-icon" href="assets/img/favicon.png">
   <link rel="stylesheet" type="text/css" href="styles/styles.css">
 </head>
-<div class="relative">
-  <canvas></canvas>
-  <div id="overlay" class="overlay"></div>
-  <div class="battleInterface" hidden>
-    <!-- Opponent Monster Health Bar -->
-    <div class="monsterInfo monster-1">
-      <h1>Draggle</h1>
-      <div class="relative-pos">
-        <div class="healthBar"></div>
-        <div id="enemyHealthBar" class="healthBar green"></div>
+<div class="content">
+  <div class="relative">
+    <canvas></canvas>
+    <div id="overlay" class="overlay"></div>
+    <div class="battleInterface" hidden>
+      <!-- Opponent Monster Health Bar -->
+      <div class="monsterInfo monster-1">
+        <h1>Draggle</h1>
+        <div class="relative-pos">
+          <div class="healthBar"></div>
+          <div id="enemyHealthBar" class="healthBar green"></div>
+        </div>
+      </div>
+      <!-- Player Monster Health Bar -->
+      <div class="monsterInfo monster-2">
+        <h1>Emby</h1>
+        <div class="relative-pos">
+          <div class="healthBar"></div>
+          <div id="playerHealthBar" class="healthBar green"></div>
+        </div>
+      </div>
+      <div class="attackBar">
+        <div class="attackBarDialogue" hidden>
+        </div>
+        <div class="attackSelection">
+        </div>
+        <div class="attackInfo">
+          <h1></h1>
+        </div>
       </div>
     </div>
-    <!-- Player Monster Health Bar -->
-    <div class="monsterInfo monster-2">
-      <h1>Emby</h1>
-      <div class="relative-pos">
-        <div class="healthBar"></div>
-        <div id="playerHealthBar" class="healthBar green"></div>
-      </div>
+  </div>
+  <div class="relative instructions">
+    <div>
+      <img src="assets/img/wasd.png" alt="" srcset="" class="">
+      <h1>Navigate</h1>
     </div>
-    <div class="attackBar">
-      <div class="attackBarDialogue" hidden>
-      </div>
-      <div class="attackSelection">
-      </div>
-      <div class="attackInfo">
-        <h1></h1>
-      </div>
+    <div>
+      <img src="assets/img/left-click.png" alt="" srcset="" class="">
+      <h1>Choose attcks in battle</h1>
     </div>
   </div>
 </div>
